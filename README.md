@@ -1,0 +1,2 @@
+# kassorm
+Cassandra ORM
