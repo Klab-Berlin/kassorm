@@ -1,0 +1,28 @@
+{
+  "name": "kassorm",
+  "version": "0.0.1",
+  "description": "K-Lab Cassandra ORM",
+  "main": "./lib/kassorm.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "dependencies": {
+    "bunyan": "^1.4.0",
+    "bunyan-format": "^0.2.1",
+    "cassandra-driver": "^2.1.1",
+    "cassanknex": "^1.6.0",
+    "electrolyte": "git+ssh://git@github.com:rashtao/electrolyte.git",
+    "joi": "^6.5.0",
+    "q": "^1.4.1"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.5",
+    "chai": "^2.3.0",
+    "chai-as-promised": "^5.0.0",
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-mocha-test": "^0.12.7"
+  },
+  "license": "LGPL-3.0",
+  "homepage": ""
+}
