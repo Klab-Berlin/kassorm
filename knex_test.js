@@ -24,9 +24,10 @@ var callb = function (err, res) {
 
 };
 
-var cql = cassanKnex("poipoi").createColumnFamilyIfNotExists("kkk");
+var cql = cassanKnex("poipoi").createColumnFamilyIfNotExists("iiii");
 cql.text("textType");
 cql.boolean("booooo");
+cql.frozen("frozen_field", "list<text>");
 cql.primary("textType");
 
 //var cql = cassanKnex("eee").createKeyspaceIfNotExists().withSimpleStrategy(1);

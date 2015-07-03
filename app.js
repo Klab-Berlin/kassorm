@@ -9,6 +9,15 @@ var log = IoC.create("logger").createLogger("APP");
 
 log.info("hello");
 
+var addressSchema = MappingBuilder()
+    .withName("schema")
+    .withKeys({
+        uuid: types.primary(types.uuid()),
+        street: types.boolean(),
+        city: types.text()
+    })
+    .build();
+
 var schema = MappingBuilder()
     .withName("schema")
     .withKeys({
@@ -18,15 +27,18 @@ var schema = MappingBuilder()
         bigint: types.bigint(),
         double: types.double(),
         timestamp: types.timestamp(),
-        blob: types.blob()
+        blob: types.blob(),
+        address: types.nested(addressSchema)
     })
     .build();
+
 
 IoC.create("KassormConfig");
 var kassorm = IoC.create("kassorm");
 var TestKS = kassorm.createKeyspace("ztr");
-//var AddressModel = TestKS.createType("address", addrSchema);
+
 var PersonModel = TestKS.createModel("person", schema);
+var AddressModel = TestKS.createModel("address", addressSchema);
 
 var Uuid = require('cassandra-driver').types.Uuid;
 var id = Uuid.random();
