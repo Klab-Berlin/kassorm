@@ -10,10 +10,10 @@ var log = IoC.create("logger").createLogger("APP");
 log.info("hello");
 
 var addressSchema = MappingBuilder()
-    .withName("schema")
+    .withName("address")
     .withKeys({
-        uuid: types.primary(types.uuid()),
-        street: types.boolean(),
+        uuid: types.uuid(),
+        street: types.text(),
         city: types.text()
     })
     .build();
@@ -37,8 +37,8 @@ IoC.create("KassormConfig");
 var kassorm = IoC.create("kassorm");
 var TestKS = kassorm.createKeyspace("ztr");
 
+var AddressModel = TestKS.createType("address", addressSchema);
 var PersonModel = TestKS.createModel("person", schema);
-var AddressModel = TestKS.createModel("address", addressSchema);
 
 var Uuid = require('cassandra-driver').types.Uuid;
 var id = Uuid.random();
@@ -50,7 +50,12 @@ PersonModel.save({
     bigint: 9999,
     double: 222.222,
     timestamp: Date.now(),
-    blob: new Buffer("ppp")
+    blob: new Buffer("ppp"),
+    address: {
+        uuid: id,
+        street: "str",
+        city: "ct"
+    }
 }).then(log.info.bind(log, "OK!")).catch(log.error.bind(log));
 //PersonModel.find({name: "Mike"});
 

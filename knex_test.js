@@ -30,6 +30,14 @@ cql.boolean("booooo");
 cql.frozen("frozen_field", "list<text>");
 cql.primary("textType");
 
+
+var cql = cassanKnex("ks")
+    .createColumnFamilyIfNotExists("cf")
+    .text("textType")
+    .frozen("frozen_field", "list<text>")
+    .primary("textType");
+
+
 //var cql = cassanKnex("eee").createKeyspaceIfNotExists().withSimpleStrategy(1);
 
 //cassanKnex.on("ready", cql.exec.bind(cql, callb));
