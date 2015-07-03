@@ -13,7 +13,7 @@ var MappingBuilder = require("../lib/MappingBuilder");
 var nestedSchema = MappingBuilder()
     .withName("nested_schema")
     .withKeys({
-        uuid: types.uuid(),
+        uuid: types.primary(types.uuid()),
         boolean: types.boolean(),
         "list": types.list(types.text()),
         bigint: types.bigint(),
@@ -26,7 +26,7 @@ var nestedSchema = MappingBuilder()
 var schema = MappingBuilder()
     .withName("schema")
     .withKeys({
-        uuid: types.uuid(),
+        uuid: types.primary(types.uuid()),
         boolean: types.boolean(),
         "list": types.list(types.text()),
         bigint: types.bigint(),

@@ -7,7 +7,7 @@ IoC.literal('KassormConfig', {
     connection: {
         contactPoints: ["127.0.0.1"]
     }
-    ,
-    debug: true
+    //,
+    //debug: true
 });
 
