@@ -24,18 +24,27 @@ var callb = function (err, res) {
 
 };
 
-var cql = cassanKnex("poipoi").createColumnFamilyIfNotExists("iiii");
-cql.text("textType");
-cql.boolean("booooo");
-cql.frozen("frozen_field", "list<text>");
-cql.primary("textType");
+var query = "SELECT * FROM system.schema_columns WHERE columnfamily_name = ? AND keyspace_name = ? ALLOW FILTERING;";
+
+var cql = cassanKnex()
+    .select("*")
+    .from("system.schema_columns")
+    .where("columnfamily_name", "=", "isis")
+    .andWhere("keyspace_name", "=", "cassanknexy");
 
 
-var cql = cassanKnex("ks")
-    .createColumnFamilyIfNotExists("cf")
-    .text("textType")
-    .frozen("frozen_field", "list<text>")
-    .primary("textType");
+//var cql = cassanKnex("poipoi").createColumnFamilyIfNotExists("iiii");
+//cql.text("textType");
+//cql.boolean("booooo");
+//cql.frozen("frozen_field", "list<text>");
+//cql.primary("textType");
+
+
+//var cql = cassanKnex("ks")
+//    .createColumnFamilyIfNotExists("cf")
+//    .text("textType")
+//    .frozen("frozen_field", "list<text>")
+//    .primary("textType");
 
 
 //var cql = cassanKnex("eee").createKeyspaceIfNotExists().withSimpleStrategy(1);

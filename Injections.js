@@ -6,8 +6,12 @@ IoC.register('kassorm', require('./lib/kassorm'));
 IoC.literal('KassormConfig', {
     connection: {
         contactPoints: ["127.0.0.1"]
+        //,
+        //sslOptions:{}
     }
+    //,
+    //debug: true
     ,
-    debug: true
+    debug: false
 });
 

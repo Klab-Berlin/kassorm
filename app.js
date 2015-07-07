@@ -21,11 +21,11 @@ var addressSchema = MappingBuilder()
 var schema = MappingBuilder()
     .withName("schema")
     .withKeys({
-        uuid: types.primary(types.uuid()),
+        uuid: types.partition_key(types.uuid(), 0),
         boolean: types.boolean(),
         "list_of_text": types.list(types.text()),
         bigint: types.bigint(),
-        double: types.double(),
+        double: types.index(types.double()),
         timestamp: types.timestamp(),
         blob: types.blob(),
         address: types.nested(addressSchema)
