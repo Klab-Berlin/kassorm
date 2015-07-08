@@ -11,7 +11,7 @@ var numbers = Joi.object().keys({
 
 var address_schema = Joi.object().keys({
     city: Joi.string().required(),
-    street: Joi.string(),
+    street: Joi.string().meta({ aaa: true }),
     numbers: numbers
 });
 
@@ -49,7 +49,7 @@ Joi.validate(user, schema, function (err, value) {
 var schema2 = Joi.array().items(address_schema);
 var arr = [addr, addr, {city: "sad", asd:""}];
 
-Joi.assert(arr, schema2);
+//Joi.assert(arr, schema2);
 
 
 //

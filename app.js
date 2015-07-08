@@ -18,6 +18,18 @@ var addressSchema = MappingBuilder()
     })
     .build();
 
+var kk = {
+    uuid: types.partition_key(types.uuid(), 0),
+    boolean: types.boolean(),
+    "list_of_text": types.list(types.text()),
+    bigint: types.bigint(),
+    double: types.index(types.double()),
+    timestamp: types.timestamp(),
+    blob: types.blob(),
+    address: types.nested(addressSchema),
+    firstname: types.partition_key(types.text(), 1)
+};
+
 var schema = MappingBuilder()
     .withName("schema")
     .withKeys({
@@ -28,7 +40,8 @@ var schema = MappingBuilder()
         double: types.index(types.double()),
         timestamp: types.timestamp(),
         blob: types.blob(),
-        address: types.nested(addressSchema)
+        address: types.nested(addressSchema),
+        firstname: types.partition_key(types.text(), 1)
     })
     .build();
 
