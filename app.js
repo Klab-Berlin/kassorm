@@ -29,7 +29,9 @@ var schema = MappingBuilder()
         timestamp: types.timestamp(),
         blob: types.blob(),
         address: types.nested(addressSchema),
-        xfirstname: types.partition_key(types.text(), 1)
+        xfirstname: types.partition_key(types.text(), 1),
+        phones: types.map(types.text(), types.text())
+        //addresses: types.map(types.text(), types.nested(addressSchema))
     })
     .build();
 
@@ -38,7 +40,7 @@ IoC.create("KassormConfig");
 var kassorm = IoC.create("kassorm");
 var TestKS = kassorm.createKeyspace("zzz");
 
-var AddressModel = TestKS.createType("address3", addressSchema.describe());
+var AddressModel = TestKS.createType("address47", addressSchema.describe());
 AddressModel.isReady().then(function () {
     var PersonModel = TestKS.createModel("person3", schema.describe());
     var Uuid = require('cassandra-driver').types.Uuid;
@@ -57,15 +59,21 @@ AddressModel.isReady().then(function () {
             uuid: id,
             street: "str",
             city: "ct"
+        },
+        phones: {
+            "home": "098 123",
+            "office": "asdsd asd"
         }
 
     }).then(log.info.bind(log, "OK!")).catch(log.error.bind(log));
 
-    PersonModel.find({uuid: id, xfirstname:"wer"}).then(log.info.bind(log, "OK!")).catch(log.error.bind(log));
+    //PersonModel.find({uuid: id, xfirstname: "wer"}).then(log.info.bind(log, "OK!")).catch(log.error.bind(log));
 
-    PersonModel.find({uuid: id, xfirstname:"wer"}).then(function (res) {
+    PersonModel.find({uuid: id, xfirstname: "wer"}).then(function (res) {
+        log.info("OUTPUT: ");
         var r = res.rows[0];
         log.info(r.address);
+        log.info(r.phones);
         log.info(r.list_of_text);
     });
 
