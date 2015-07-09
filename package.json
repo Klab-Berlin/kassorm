@@ -10,7 +10,7 @@
     "bunyan": "^1.4.0",
     "bunyan-format": "^0.2.1",
     "cassandra-driver": "^2.1.1",
-    "cassanknex": "file:../../github/cassanknex",
+    "cassanknex": "git+ssh://git@github.com:azuqua/cassanknex",
     "electrolyte": "git+ssh://git@github.com:rashtao/electrolyte.git",
     "joi": "^6.5.0",
     "q": "^1.4.1"
