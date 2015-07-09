@@ -9,6 +9,7 @@ var log = IoC.create("logger").createLogger("APP");
 
 log.info("hello");
 
+
 var addressSchema = MappingBuilder()
     .withName("address")
     .withKeys({
@@ -30,8 +31,8 @@ var schema = MappingBuilder()
         blob: types.blob(),
         address: types.nested(addressSchema),
         xfirstname: types.partition_key(types.text(), 1),
-        phones: types.map(types.text(), types.text())
-        //addresses: types.map(types.text(), types.nested(addressSchema))
+        phones: types.map(types.text(), types.text()),
+        addresses: types.map(types.text(), types.nested(addressSchema))
     })
     .build();
 
@@ -63,19 +64,34 @@ AddressModel.isReady().then(function () {
         phones: {
             "home": "098 123",
             "office": "asdsd asd"
+        },
+        addresses: {
+            "home": {
+                uuid: id,
+                street: "str",
+                city: "ct"
+            },
+            "office": {
+                uuid: id,
+                street: "str",
+                city: "ct"
+            }
         }
 
-    }).then(log.info.bind(log, "OK!")).catch(log.error.bind(log));
+    }).then(log.info.bind(log, "OK!")).catch(log.error.bind(log))
 
-    //PersonModel.find({uuid: id, xfirstname: "wer"}).then(log.info.bind(log, "OK!")).catch(log.error.bind(log));
+        .then(function () {
+            PersonModel.find({uuid: id, xfirstname: "wer"}).then(function (res) {
+                log.info("OUTPUT: ");
+                var r = res.rows[0];
+                log.info(r.address);
+                log.info(r.phones);
+                log.info(r.list_of_text);
+                log.info(r.addresses);
+            });
 
-    PersonModel.find({uuid: id, xfirstname: "wer"}).then(function (res) {
-        log.info("OUTPUT: ");
-        var r = res.rows[0];
-        log.info(r.address);
-        log.info(r.phones);
-        log.info(r.list_of_text);
-    });
+        });
+
 
 });
 
