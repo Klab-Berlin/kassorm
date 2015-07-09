@@ -9,9 +9,9 @@ IoC.literal('KassormConfig', {
         //,
         //sslOptions:{}
     }
-    //,
-    //debug: true
     ,
-    debug: false
+    debug: true
+    //,
+    //debug: false
 });
 

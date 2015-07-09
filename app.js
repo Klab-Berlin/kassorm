@@ -38,13 +38,14 @@ IoC.create("KassormConfig");
 var kassorm = IoC.create("kassorm");
 var TestKS = kassorm.createKeyspace("zzz");
 
-var AddressModel = TestKS.createType("address", addressSchema);
+var AddressModel = TestKS.createType("address3", addressSchema.describe());
 AddressModel.isReady().then(function () {
-    var PersonModel = TestKS.createModel("person", schema);
+    var PersonModel = TestKS.createModel("person3", schema.describe());
     var Uuid = require('cassandra-driver').types.Uuid;
     var id = Uuid.random();
 
     PersonModel.save({
+        xfirstname: "wer",
         uuid: id,
         boolean: true,
         "list_of_text": ["aaa", "bbb", "ccc"],
@@ -57,11 +58,12 @@ AddressModel.isReady().then(function () {
             street: "str",
             city: "ct"
         }
+
     }).then(log.info.bind(log, "OK!")).catch(log.error.bind(log));
 
-    PersonModel.find({uuid: id}).then(log.info.bind(log, "OK!")).catch(log.error.bind(log));
+    PersonModel.find({uuid: id, xfirstname:"wer"}).then(log.info.bind(log, "OK!")).catch(log.error.bind(log));
 
-    PersonModel.find({uuid: id}).then(function (res) {
+    PersonModel.find({uuid: id, xfirstname:"wer"}).then(function (res) {
         var r = res.rows[0];
         log.info(r.address);
         log.info(r.list_of_text);

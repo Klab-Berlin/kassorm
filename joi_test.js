@@ -1,3 +1,9 @@
+var IoC = require('electrolyte');
+require('./Injections'); // pushes injections
+
+var log = IoC.create("logger").createLogger("APP");
+
+
 var _numbers = {n1: "n1", n2: "n2"};
 var addr = {city: "asd", street: "str", numbers: _numbers};
 var user = {username: 'abc', birthyear: 1994, password: "ade", addr: addr};
@@ -5,18 +11,28 @@ var user = {username: 'abc', birthyear: 1994, password: "ade", addr: addr};
 var Joi = require('joi');
 
 var numbers = Joi.object().keys({
-    n1: Joi.string().required(),
+    n1: Joi.string().meta({aaa: true}).required(),
     n2: Joi.string()
 });
 
 var address_schema = Joi.object().keys({
     city: Joi.string().required(),
-    street: Joi.string().meta({ aaa: true }),
+    street: Joi.string(),
     numbers: numbers
 });
 
-console.log(":::::::::");
-console.log(address_schema.describe());
+
+log.info(address_schema.describe());
+
+
+var sc = Joi.array().meta({bbb: 33}).meta({aaa: 22});
+
+log.info(sc.describe());
+sc.describe().meta[0].bbb = 99;
+log.info(sc.describe());
+
+return;
+
 
 var schema = Joi.object().keys({
     username: Joi.string().alphanum().min(3).max(30).required(),
@@ -45,9 +61,8 @@ Joi.validate(user, schema, function (err, value) {
 //
 
 
-
 var schema2 = Joi.array().items(address_schema);
-var arr = [addr, addr, {city: "sad", asd:""}];
+var arr = [addr, addr, {city: "sad", asd: ""}];
 
 //Joi.assert(arr, schema2);
 
