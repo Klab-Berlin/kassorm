@@ -10,6 +10,14 @@ var user = {username: 'abc', birthyear: 1994, password: "ade", addr: addr};
 
 var Joi = require('joi');
 
+
+var m = Joi.object().keys(Joi.string());
+var m1 = {"asd": "asd"};
+var m2 = {"asd": 55};
+
+Joi.assert(m1, m);
+Joi.assert(m2, m);
+
 var numbers = Joi.object().keys({
     n1: Joi.string().meta({aaa: true}).required(),
     n2: Joi.string()

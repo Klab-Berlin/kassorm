@@ -1,30 +1,18 @@
-//var chai = require('chai');
-//var assert = chai.assert;
-//var async = require('async');
+var chai = require("chai");
+var chaiAsPromised = require("chai-as-promised");
+chai.use(chaiAsPromised);
+var expect = chai.expect;
 
-//var connection;
-//switch (process.env.TRAVIS) {
-//    case 'true':
-//        connection = {
-//            "contactPoints": [
-//                "127.0.0.1"
-//            ],
-//            "keyspace": "tests"
-//        };
-//        break;
-//    default:
-//        try {
-//            connection = require('./local_conf.json');
-//        } catch (e) {
-//            throw "Missing local_conf.json in test directory";
-//        }
-//        break;
-//}
-//
-//describe('Apollo > ', function () {
-//
-//    this.timeout(10000);
-//
+
+var connection = require('./local_conf.json');
+
+describe('Apollo > ', function () {
+
+    this.timeout(10000);
+
+
+});
+
 //    describe('Global library', function () {
 //
 //        var apollo;
@@ -1086,5 +1074,4 @@
 //
 //    });
 //
-//});
-//
+

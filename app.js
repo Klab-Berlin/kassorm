@@ -41,57 +41,60 @@ IoC.create("KassormConfig");
 var kassorm = IoC.create("kassorm");
 var TestKS = kassorm.createKeyspace("zzz");
 
-var AddressModel = TestKS.createType("address47", addressSchema.describe());
-AddressModel.isReady().then(function () {
-    var PersonModel = TestKS.createModel("person3", schema.describe());
-    var Uuid = require('cassandra-driver').types.Uuid;
-    var id = Uuid.random();
+var AddressModel = TestKS.createType("address47", addressSchema);
+AddressModel.isReady()
+    .then(function () {
+        var PersonModel = TestKS.createModel("person3", schema);
+        var Uuid = require('cassandra-driver').types.Uuid;
+        var id = Uuid.random();
+        log.info("id: ", id.toString());
 
-    PersonModel.save({
-        xfirstname: "wer",
-        uuid: id,
-        boolean: true,
-        "list_of_text": ["aaa", "bbb", "ccc"],
-        bigint: 9999,
-        double: 222.222,
-        timestamp: Date.now(),
-        blob: new Buffer("ppp"),
-        address: {
-            uuid: id,
-            street: "str",
-            city: "ct"
-        },
-        phones: {
-            "home": "098 123",
-            "office": "asdsd asd"
-        },
-        addresses: {
-            "home": {
-                uuid: id,
+        PersonModel.save({
+            xfirstname: "wer",
+            uuid: id.toString(),
+            boolean: true,
+            "list_of_text": ["aaa", "bbb", "ccc"],
+            bigint: 9999,
+            double: 222.222,
+            timestamp: Date.now(),
+            blob: new Buffer("ppp"),
+            address: {
+                uuid: id.toString(),
                 street: "str",
                 city: "ct"
             },
-            "office": {
-                uuid: id,
-                street: "str",
-                city: "ct"
+            phones: {
+                "home": "098 123",
+                "office": "asdsd asd"
+            },
+            addresses: {
+                "home": {
+                    uuid: id.toString(),
+                    street: "str",
+                    city: "ct"
+                },
+                "office": {
+                    uuid: id.toString(),
+                    street: "str",
+                    city: "ct"
+                }
             }
-        }
 
-    }).then(log.info.bind(log, "OK!")).catch(log.error.bind(log))
+        }).then(log.info.bind(log, "OK!")).catch(log.error.bind(log))
 
-        .then(function () {
-            PersonModel.find({uuid: id, xfirstname: "wer"}).then(function (res) {
-                log.info("OUTPUT: ");
-                var r = res.rows[0];
-                log.info(r.address);
-                log.info(r.phones);
-                log.info(r.list_of_text);
-                log.info(r.addresses);
+            .then(function () {
+                PersonModel.find({uuid: id, xfirstname: "wer"}).then(function (res) {
+                    log.info("OUTPUT: ");
+                    var r = res.rows[0];
+                    log.info(r.address);
+                    log.info(r.phones);
+                    log.info(r.list_of_text);
+                    log.info(r.addresses);
+                });
+
             });
 
-        });
 
-
-});
+    })
+    .catch(log.error.bind(log));
 
