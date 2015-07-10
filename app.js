@@ -1,3 +1,6 @@
+var Q = require('q');
+Q.longStackSupport = true;
+
 var IoC = require('electrolyte');
 
 var types = require('./lib/MappingsTypes');
@@ -6,9 +9,6 @@ var MappingBuilder = require("./lib/MappingBuilder");
 require('./Injections'); // pushes injections
 
 var log = IoC.create("logger").createLogger("APP");
-
-log.info("hello");
-
 
 var addressSchema = MappingBuilder()
     .withName("address")
@@ -32,24 +32,33 @@ var schema = MappingBuilder()
         address: types.nested(addressSchema),
         xfirstname: types.partition_key(types.text(), 1),
         phones: types.map(types.text(), types.text()),
-        addresses: types.map(types.text(), types.nested(addressSchema))
+        addresses: types.map(types.text(), addressSchema)
     })
     .build();
 
 
+
+var Uuid = require('cassandra-driver').types.Uuid;
+var id = Uuid.random();
+log.info("id: ", id.toString());
+
+
+var TestKS, PersonModel;
+
 IoC.create("KassormConfig");
 var kassorm = IoC.create("kassorm");
-var TestKS = kassorm.createKeyspace("zzz");
-
-var AddressModel = TestKS.createType("address47", addressSchema);
-AddressModel.isReady()
-    .then(function () {
-        var PersonModel = TestKS.createModel("person3", schema);
-        var Uuid = require('cassandra-driver').types.Uuid;
-        var id = Uuid.random();
-        log.info("id: ", id.toString());
-
-        PersonModel.save({
+kassorm.createKeyspace("zzz")
+    .then(function (ks) {
+        log.info("1");
+        TestKS = ks;
+        return ks.createType("address", addressSchema);
+    })
+    .then(function (AddressModel) {
+        return TestKS.createModel("person", schema);
+    })
+    .then(function (pm) {
+        PersonModel = pm;
+        return PersonModel.save({
             xfirstname: "wer",
             uuid: id.toString(),
             boolean: true,
@@ -80,21 +89,34 @@ AddressModel.isReady()
                 }
             }
 
-        }).then(log.info.bind(log, "OK!")).catch(log.error.bind(log))
-
-            .then(function () {
-                PersonModel.find({uuid: id, xfirstname: "wer"}).then(function (res) {
-                    log.info("OUTPUT: ");
-                    var r = res.rows[0];
-                    log.info(r.address);
-                    log.info(r.phones);
-                    log.info(r.list_of_text);
-                    log.info(r.addresses);
-                });
-
-            });
-
+        })
+    })
+    .then(log.info.bind(log, "OK!"))
+    .then(function () {
+        PersonModel.find({uuid: id, xfirstname: "wer"}).then(function (res) {
+            log.info("OUTPUT: ");
+            var r = res.rows[0];
+            log.info(r.address);
+            log.info(r.phones);
+            log.info(r.list_of_text);
+            log.info(r.addresses);
+        });
 
     })
+    .then(function () {
+        return TestKS.dropTable("person");
+    })
+    .then(function () {
+        return TestKS.dropType("address");
+    })
+    .then(function () {
+        return kassorm.dropKeyspace("zzz");
+    })
     .catch(log.error.bind(log));
+
+
+
+
+
+
 

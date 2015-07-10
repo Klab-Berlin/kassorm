@@ -13,26 +13,6 @@ describe('Apollo > ', function () {
 
 });
 
-//    describe('Global library', function () {
-//
-//        var apollo;
-//
-//        describe('New Apollo > ', function () {
-//
-//            it('is a valid instance', function () {
-//                apollo = new Apollo(connection);
-//                assert.instanceOf(apollo, Apollo, 'apollo is an instance of Apollo');
-//                assert.isFunction(apollo.connect, 'connect is a function of apollo');
-//            });
-//
-//            it('connects to cassandra', function (done) {
-//                apollo.connect(done);
-//                apollo.close();
-//            });
-//        });
-//    });
-//
-//
 //    describe('On Apollo instances > ', function () {
 //
 //        var ap;
