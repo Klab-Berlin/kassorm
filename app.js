@@ -4,24 +4,21 @@ Q.longStackSupport = true;
 var IoC = require('electrolyte');
 
 var types = require('./lib/MappingsTypes');
-var MappingBuilder = require("./lib/MappingBuilder");
+var SchemaFactory = require("./lib/SchemaFactory");
 
 require('./Injections'); // pushes injections
 
 var log = IoC.create("logger").createLogger("APP");
 
-var addressSchema = MappingBuilder()
-    .withName("address")
-    .withKeys({
+var addressSchema = SchemaFactory.createSchema("address")
+    .keys({
         uuid: types.uuid(),
         street: types.text(),
         city: types.text()
-    })
-    .build();
+    });
 
-var schema = MappingBuilder()
-    .withName("schema")
-    .withKeys({
+var schema = SchemaFactory.createSchema("schema")
+    .keys({
         uuid: types.partition_key(types.uuid(), 0),
         boolean: types.boolean(),
         "list_of_text": types.list(types.text()),
@@ -33,10 +30,7 @@ var schema = MappingBuilder()
         xfirstname: types.partition_key(types.text(), 1),
         phones: types.map(types.text(), types.text()),
         addresses: types.map(types.text(), addressSchema)
-    })
-    .build();
-
-
+    });
 
 var Uuid = require('cassandra-driver').types.Uuid;
 var id = Uuid.random();
