@@ -8,50 +8,43 @@ require('../Injections'); // pushes injections
 
 var types = require('../lib/MappingsTypes');
 var JsToKnex = require("../lib/JsToKnex");
-var MappingBuilder = require("../lib/MappingBuilder");
+var SchemaFactory = require("../lib/SchemaFactory");
 
-var nestedSchema = MappingBuilder()
-    .withName("nested_schema")
-    .withKeys({
-        uuid: types.primary(types.uuid()),
+
+var addressSchema = SchemaFactory.createSchema("address")
+    .keys({
+        street: types.text(),
+        city: types.text()
+    });
+
+var schema = SchemaFactory.createSchema("schema")
+    .keys({
+        uuid: types.partition_key(types.uuid(), 0),
         boolean: types.boolean(),
-        "list": types.list(types.text()),
+        "list_of_text": types.list(types.text()),
         bigint: types.bigint(),
-        double: types.double(),
+        double: types.index(types.double()),
         timestamp: types.timestamp(),
-        blob: types.blob()
-    })
-    .build();
-
-var schema = MappingBuilder()
-    .withName("schema")
-    .withKeys({
-        uuid: types.primary(types.uuid()),
-        boolean: types.boolean(),
-        "list": types.list(types.text()),
-        bigint: types.bigint(),
-        double: types.double(),
-        timestamp: types.timestamp(),
-        blob: types.blob()
-        //,
-        //"frozen<nested_schema>": types.nested(nestedSchema)
-    })
-    .build();
+        blob: types.blob(),
+        address: types.nested(addressSchema),
+        firstname: types.partition_key(types.text(), 1),
+        phones: types.map(types.text(), types.text()),
+        //addresses: types.map(types.text(), addressSchema)
+    });
 
 
-var cqlFieldsForSchema = Object.keys(schema.keys).map(function (k) {
-    return JsToKnex(schema.keys[k]).method;
-});
 
-var cqlFieldsForNestedSchema = Object.keys(nestedSchema.keys).map(function (k) {
-    return JsToKnex(nestedSchema.keys[k]).method;
-});
+var cqlFieldsForSchema = JsToKnex(schema);
+console.log(cqlFieldsForSchema);
+
+var childrenAddressSchema = JsToKnex(addressSchema);
+console.log(childrenAddressSchema);
 
 describe('Mapping Test', function () {
     describe('conversion test', function () {
         it("should map", function () {
             expect(schema.keys).to.have.all.keys(cqlFieldsForSchema);
-            expect(nestedSchema.keys).to.have.all.keys(cqlFieldsForNestedSchema);
+            expect(nestedSchema.keys).to.have.all.keys(cqlFieldsForAddressSchema);
         });
 
     });

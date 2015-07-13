@@ -29,7 +29,7 @@ var schema = SchemaFactory.createSchema("schema")
         address: types.nested(addressSchema),
         xfirstname: types.partition_key(types.text(), 1),
         phones: types.map(types.text(), types.text()),
-        addresses: types.map(types.text(), addressSchema)
+        addresses: types.map(types.text(), types.nested(addressSchema))
     });
 
 var Uuid = require('cassandra-driver').types.Uuid;

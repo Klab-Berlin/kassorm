@@ -4,6 +4,9 @@ require('./Injections'); // pushes injections
 var log = IoC.create("logger").createLogger("APP");
 
 
+
+
+
 var _numbers = {n1: "n1", n2: "n2"};
 var addr = {city: "asd", street: "str", numbers: _numbers};
 var user = {username: 'abc', birthyear: 1994, password: "ade", addr: addr};
@@ -11,26 +14,39 @@ var user = {username: 'abc', birthyear: 1994, password: "ade", addr: addr};
 var Joi = require('joi');
 
 
-var m = Joi.object().keys(Joi.string());
-var m1 = {"asd": "asd"};
-var m2 = {"asd": 55};
 
-Joi.assert(m1, m);
-Joi.assert(m2, m);
+//Joi.object().keys(this.keys).meta({
+//    cql: this.name
+//})
 
-var numbers = Joi.object().keys({
-    n1: Joi.string().meta({aaa: true}).required(),
-    n2: Joi.string()
-});
+var a = Joi.object().meta({name: "a"});
+var b = a.meta({name: "b"});
 
-var address_schema = Joi.object().keys({
-    city: Joi.string().required(),
-    street: Joi.string(),
-    numbers: numbers
-});
+log.info(a.describe());
+log.info(b.describe());
+
+return;
 
 
-log.info(address_schema.describe());
+//var m1 = {"asd": "asd"};
+//var m2 = {"asd": 55};
+
+//Joi.assert(m1, m);
+//Joi.assert(m2, m);
+
+//var numbers = Joi.object().keys({
+//    n1: Joi.string().meta({aaa: true}).required(),
+//    n2: Joi.string()
+//});
+
+//var address_schema = Joi.object().keys({
+//    city: Joi.string().required(),
+//    street: Joi.string(),
+//    numbers: numbers
+//});
+
+
+log.info(m.describe());
 
 
 var sc = Joi.array().meta({bbb: 33}).meta({aaa: 22});
