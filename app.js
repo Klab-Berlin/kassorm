@@ -17,7 +17,7 @@ var addressSchema = SchemaFactory.createSchema("address")
         city: types.text()
     });
 
-var schema = SchemaFactory.createSchema("schema")
+var schema = SchemaFactory.createSchema("person")
     .keys({
         uuid: types.partition_key(types.uuid(), 0),
         boolean: types.boolean(),
@@ -39,16 +39,15 @@ log.info("id: ", id.toString());
 
 var TestKS, PersonModel;
 
-IoC.create("KassormConfig");
 var kassorm = IoC.create("kassorm");
 kassorm.createKeyspace("zzz")
     .then(function (ks) {
         log.info("1");
         TestKS = ks;
-        return ks.createType("address", addressSchema);
+        return ks.createType(addressSchema);
     })
     .then(function (AddressModel) {
-        return TestKS.createModel("person", schema);
+        return TestKS.createModel(schema);
     })
     .then(function (pm) {
         PersonModel = pm;
@@ -89,7 +88,7 @@ kassorm.createKeyspace("zzz")
     .then(function () {
         PersonModel.find({uuid: id, xfirstname: "wer"}).then(function (res) {
             log.info("OUTPUT: ");
-            var r = res.rows[0];
+            var r = res[0];
             log.info(r.address);
             log.info(r.phones);
             log.info(r.list_of_text);
