@@ -1,6 +1,6 @@
 {
   "name": "kassorm",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "K-Lab Cassandra ORM",
   "main": "./lib/kassorm.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "bunyan-format": "^0.2.1",
     "cassandra-driver": "^2.1.1",
     "cassanknex": "git+ssh://git@github.com:azuqua/cassanknex",
-    "electrolyte": "git+ssh://git@github.com:rashtao/electrolyte.git",
+    "electrolyte": "git+ssh://git@github.com:rashtao/electrolyte.git#v0.0.8",
     "joi": "^6.5.0",
     "q": "^1.4.1"
   },
