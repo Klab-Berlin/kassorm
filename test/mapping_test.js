@@ -15,6 +15,7 @@ var JsToKnex = require("../lib/JsToKnex");
 var SchemaFactory = require("../lib/SchemaFactory");
 
 var Uuid = require('cassandra-driver').types.Uuid;
+var TimeUuid = require('cassandra-driver').types.TimeUuid;
 
 var kassorm;
 var keyspaceName = "kassorm_test_ks";
@@ -50,6 +51,7 @@ before(function (done) {
 
     tableSchemaChildren = {
         uuid: types.partition_key(types.uuid(), 0),
+        timeuuid: types.timeuuid(),
         partition_key: types.partition_key(types.text(), 1),
         boolean: types.boolean(),
         bigint: types.bigint(),
@@ -70,6 +72,7 @@ before(function (done) {
 
     tableInstance = {
         uuid: tableInstanceId,
+        timeuuid: TimeUuid.now().toString(),
         partition_key: "partition_key",
         boolean: true,
         bigint: 9999,
