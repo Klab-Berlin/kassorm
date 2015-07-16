@@ -91,10 +91,12 @@ before(function (done) {
     kassorm = IoC.create("kassorm");
 
     var keyspace;
-    keyspaceCreated = kassorm.createKeyspace(keyspaceName)
-        .then(function (ks) {
-            keyspace = ks;
-        });
+    keyspaceCreated = kassorm.dropKeyspace(keyspaceName).then(function () {
+        return kassorm.createKeyspace(keyspaceName)
+            .then(function (ks) {
+                keyspace = ks;
+            });
+    });
 
     typeCreated = keyspaceCreated.then(function () {
         return keyspace.createType(typeSchema);
