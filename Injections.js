@@ -16,5 +16,7 @@ IoC.literal('cassanknexConfig', {
 });
 
 IoC.literal('KassormConfig', {
-    ALLOW_DDL_CHANGES: true
+    ALLOW_DDL_CHANGES: true,
+    // FIXME: remove after https://github.com/azuqua/cassanknex/issues/14 is fixed
+    SKIP_DDL_CHANGES: true
 });
