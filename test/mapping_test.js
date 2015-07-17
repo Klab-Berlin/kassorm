@@ -77,7 +77,7 @@ before(function (done) {
         boolean: true,
         bigint: 9999,
         double: 99.99,
-        timestamp: new Date(Date.now()),
+        timestamp: (new Date(Date.now())).getTime(),
         blob: new Buffer("blob"),
         text_index: "text_index",
         nested_index: typeInstance0,
