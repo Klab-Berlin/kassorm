@@ -65,7 +65,8 @@ before(function (done) {
         text_list: types.list(types.text()),
         nESted: types.nested(typeSchema),
         nested_map: types.map(types.text(), types.nested(typeSchema)),
-        nested_list: types.list(types.nested(typeSchema))
+        nested_list: types.list(types.nested(typeSchema)),
+        rights: types.map(types.text(), types.boolean())
     };
     tableSchema = SchemaFactory.createSchema("kassorm_table").keys(tableSchemaChildren);
 
@@ -86,7 +87,8 @@ before(function (done) {
         text_list: ["text_list_0", "text_list_1"],
         nESted: typeInstance0,
         nested_map: {"nested_map_key": typeInstance0},
-        nested_list: [typeInstance0, typeInstance1]
+        nested_list: [typeInstance0, typeInstance1],
+        rights: {"addUser": true, "admin": true, "api": true, "use": true}
     };
 
     kassorm = IoC.create("kassorm");
