@@ -37,7 +37,7 @@ before(function (done) {
         text: types.text(),
         boolean: types.boolean()
     };
-    typeSchema = SchemaFactory.createSchema("kassorm_type").keys(typeSchemaChildren);
+    typeSchema = SchemaFactory.createSchema("kassormType").keys(typeSchemaChildren);
 
     var typeInstance0 = {
         text: "text0",
@@ -51,18 +51,18 @@ before(function (done) {
 
     tableSchemaChildren = {
         uuid: types.partition_key(types.uuid(), 0),
-        timeuuid: types.timeuuid(),
+        timeUuid: types.timeuuid(),
         partition_key: types.partition_key(types.text(), 1),
         boolean: types.boolean(),
-        bigint: types.bigint(),
-        double: types.double(),
+        bigInt: types.bigint(),
+        dou_Ble: types.double(),
         timestamp: types.timestamp(),
         blob: types.blob(),
         text_index: types.index(types.text()),
         nested_index: types.index(types.nested(typeSchema)),
         text_map: types.map(types.text(), types.text()),
         text_list: types.list(types.text()),
-        nested: types.nested(typeSchema),
+        nESted: types.nested(typeSchema),
         nested_map: types.map(types.text(), types.nested(typeSchema)),
         nested_list: types.list(types.nested(typeSchema))
     };
@@ -72,18 +72,18 @@ before(function (done) {
 
     tableInstance = {
         uuid: tableInstanceId,
-        timeuuid: TimeUuid.now().toString(),
+        timeUuid: TimeUuid.now().toString(),
         partition_key: "partition_key",
         boolean: true,
-        bigint: 9999,
-        double: 99.99,
+        bigInt: 9999,
+        dou_Ble: 99.99,
         timestamp: (new Date(Date.now())).getTime(),
         blob: new Buffer("blob"),
         text_index: "text_index",
         nested_index: typeInstance0,
         text_map: {"text_map_key": "text_map_value"},
         text_list: ["text_list_0", "text_list_1"],
-        nested: typeInstance0,
+        nESted: typeInstance0,
         nested_map: {"nested_map_key": typeInstance0},
         nested_list: [typeInstance0, typeInstance1]
     };
@@ -139,7 +139,7 @@ before(function (done) {
 
 
 describe('Mapping Test', function () {
-    this.timeout(5000);
+    this.timeout(500000);
 
     describe('Create keyspaces, tables and types', function () {
 
