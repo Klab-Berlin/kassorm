@@ -35,19 +35,19 @@ var tableInstance, readObject;
 
 before(function (done) {
     typeSchemaChildren = {
-        text: types.text(),
-        boolean: types.boolean()
+        tExt: types.text(),
+        boOlean: types.boolean()
     };
     typeSchema = SchemaFactory.createSchema("kassormType").keys(typeSchemaChildren);
 
     var typeInstance0 = {
-        text: "text0",
-        boolean: true
+        tExt: "text0",
+        boOlean: true
     };
 
     var typeInstance1 = {
-        text: "text1",
-        boolean: true
+        tExt: "text1",
+        boOlean: true
     };
 
     tableSchemaChildren = {
