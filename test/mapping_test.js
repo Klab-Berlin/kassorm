@@ -6,14 +6,10 @@ var expect = chai.expect;
 var IoC = require('electrolyte');
 var log = IoC.create("logger").createLogger("TEST");
 
-var Q = require("q");
-var Promise = Q.Promise;
-
 require('./Injections'); // pushes injections
 
-var types = require('../lib/MappingsTypes');
+var Mapper = require('../lib/kassorm').Mapper;
 var JsToKnex = require("../lib/JsToKnex");
-var SchemaFactory = require("../lib/SchemaFactory");
 
 var Uuid = require('cassandra-driver').types.Uuid;
 var TimeUuid = require('cassandra-driver').types.TimeUuid;
@@ -35,10 +31,10 @@ var tableInstance, readObject;
 
 before(function (done) {
     typeSchemaChildren = {
-        tExt: types.text(),
-        boOlean: types.boolean()
+        tExt: Mapper.text(),
+        boOlean: Mapper.boolean()
     };
-    typeSchema = SchemaFactory.createSchema("kassormType").keys(typeSchemaChildren);
+    typeSchema = Mapper.createSchema("kassormType").keys(typeSchemaChildren);
 
     var typeInstance0 = {
         tExt: "text0",
@@ -51,25 +47,25 @@ before(function (done) {
     };
 
     tableSchemaChildren = {
-        _id: types.bigint(),
-        uuid: types.partition_key(types.uuid(), 0),
-        timeUuid: types.timeuuid(),
-        partition_key: types.partition_key(types.text(), 1),
-        boolean: types.boolean(),
-        bigInt: types.bigint(),
-        dou_Ble: types.double(),
-        timestamp: types.timestamp(),
-        blob: types.blob(),
-        text_index: types.index(types.text()),
-        nested_index: types.index(types.nested(typeSchema)),
-        text_map: types.map(types.text(), types.text()),
-        text_list: types.list(types.text()),
-        nESted: types.nested(typeSchema),
-        nested_map: types.map(types.text(), types.nested(typeSchema)),
-        nested_list: types.list(types.nested(typeSchema)),
-        rights: types.map(types.text(), types.boolean())
+        _id: Mapper.bigint(),
+        uuid: Mapper.partition_key(Mapper.uuid(), 0),
+        timeUuid: Mapper.timeuuid(),
+        partition_key: Mapper.partition_key(Mapper.text(), 1),
+        boolean: Mapper.boolean(),
+        bigInt: Mapper.bigint(),
+        dou_Ble: Mapper.double(),
+        timestamp: Mapper.timestamp(),
+        blob: Mapper.blob(),
+        text_index: Mapper.index(Mapper.text()),
+        nested_index: Mapper.index(Mapper.nested(typeSchema)),
+        text_map: Mapper.map(Mapper.text(), Mapper.text()),
+        text_list: Mapper.list(Mapper.text()),
+        nESted: Mapper.nested(typeSchema),
+        nested_map: Mapper.map(Mapper.text(), Mapper.nested(typeSchema)),
+        nested_list: Mapper.list(Mapper.nested(typeSchema)),
+        rights: Mapper.map(Mapper.text(), Mapper.boolean())
     };
-    tableSchema = SchemaFactory.createSchema("kassorm_table").keys(tableSchemaChildren);
+    tableSchema = Mapper.createSchema("kassorm_table").keys(tableSchemaChildren);
 
     var tableInstanceId = Uuid.random().toString();
 
