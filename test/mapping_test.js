@@ -4,6 +4,7 @@ chai.use(chaiAsPromised);
 var expect = chai.expect;
 
 var IoC = require('electrolyte');
+var log = IoC.create("logger").createLogger("TEST");
 
 var Q = require("q");
 var Promise = Q.Promise;
@@ -119,7 +120,7 @@ before(function (done) {
         return table.find({"uuid": tableInstanceId, "partition_key": "partition_key"});
     }).then(function (rows) {
         readObject = rows[0];
-    });
+    }).catch(log.error.bind(log));
 
     var canDropEverything = dataRead;
     tableDropped = canDropEverything.then(function () {
