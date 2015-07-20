@@ -51,6 +51,7 @@ before(function (done) {
     };
 
     tableSchemaChildren = {
+        _id: types.bigint(),
         uuid: types.partition_key(types.uuid(), 0),
         timeUuid: types.timeuuid(),
         partition_key: types.partition_key(types.text(), 1),
@@ -73,13 +74,14 @@ before(function (done) {
     var tableInstanceId = Uuid.random().toString();
 
     tableInstance = {
+        _id: 22,
         uuid: tableInstanceId,
         timeUuid: TimeUuid.now().toString(),
         partition_key: "partition_key",
         boolean: true,
         bigInt: 9999,
         dou_Ble: 99.99,
-        timestamp: (new Date(Date.now())).getTime(),
+        timestamp: Date.now(),
         blob: new Buffer("blob"),
         text_index: "text_index",
         nested_index: typeInstance0,
