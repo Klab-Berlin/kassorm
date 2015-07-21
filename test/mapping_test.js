@@ -64,7 +64,8 @@ before(function (done) {
         nested_map: Mapper.map(Mapper.text(), Mapper.nested(typeSchema)),
         nested_list: Mapper.list(Mapper.nested(typeSchema)),
         rights: Mapper.map(Mapper.text(), Mapper.boolean()),
-        nullList: Mapper.list(Mapper.text())
+        nullList: Mapper.list(Mapper.text()),
+        nullNested: Mapper.nested(typeSchema)
     };
     tableSchema = Mapper.createSchema("kassorm_table").keys(tableSchemaChildren);
 
@@ -88,7 +89,8 @@ before(function (done) {
         nested_map: {"nested_map_key": typeInstance0},
         nested_list: [typeInstance0, typeInstance1],
         rights: {"addUser": true, "admin": true, "api": true, "use": true},
-        nullList: null
+        nullList: null,
+        nullNested: null
     };
 
     kassorm = IoC.create("kassorm");
