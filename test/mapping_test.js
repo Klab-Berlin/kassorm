@@ -88,9 +88,7 @@ before(function (done) {
         nESted: typeInstance0,
         nested_map: {"nested_map_key": typeInstance0},
         nested_list: [typeInstance0, typeInstance1],
-        rights: {"addUser": true, "admin": true, "api": true, "use": true},
-        nullList: null,
-        nullNested: null
+        rights: {"addUser": true, "admin": true, "api": true, "use": true}
     };
 
     kassorm = IoC.create("kassorm");

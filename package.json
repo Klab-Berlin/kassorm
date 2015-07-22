@@ -13,6 +13,7 @@
     "cassanknex": "git+ssh://git@github.com:azuqua/cassanknex#develop",
     "electrolyte": "git+ssh://git@github.com:rashtao/electrolyte.git#v0.0.9",
     "joi": "^6.5.0",
+    "json-stable-stringify": "^1.0.0",
     "q": "^1.4.1"
   },
   "devDependencies": {
