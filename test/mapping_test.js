@@ -16,6 +16,7 @@ var TimeUuid = require('cassandra-driver').types.TimeUuid;
 
 var kassorm;
 var keyspaceName = "kassorm_test_ks";
+//var keyspaceName = "plutarchus";
 var tableName = "kassorm_table";
 var typeName = "kassorm_type";
 
