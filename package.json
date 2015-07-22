@@ -12,7 +12,6 @@
     "cassandra-driver": "^2.1.1",
     "cassanknex": "git+ssh://git@github.com:azuqua/cassanknex#develop",
     "electrolyte": "git+ssh://git@github.com:rashtao/electrolyte.git#v0.0.9",
-    "humps": "^0.6.0",
     "joi": "^6.5.0",
     "q": "^1.4.1"
   },
