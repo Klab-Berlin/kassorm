@@ -120,6 +120,8 @@ before(function (done) {
         return table.save(tableInstance);
     });
 
+    dataInserted.catch(log.error.bind(log));
+
     dataRead = dataInserted.then(function () {
         return table.find({"uuid": tableInstanceId, "partition_key": "partition_key"});
     }).then(function (rows) {
