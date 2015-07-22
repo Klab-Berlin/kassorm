@@ -48,9 +48,9 @@ before(function (done) {
 
     tableSchemaChildren = {
         _id: Mapper.bigint(),
-        uuid: Mapper.partition_key(Mapper.uuid(), 0),
-        timeUuid: Mapper.timeuuid(),
-        partition_key: Mapper.partition_key(Mapper.text(), 1),
+        uuid: Mapper.uuid(),
+        timeuuid: Mapper.partition_key(Mapper.timeuuid()),
+        partition_key: Mapper.text(),
         boolean: Mapper.boolean(),
         bigInt: Mapper.bigint(),
         dou_Ble: Mapper.double(),
@@ -69,12 +69,12 @@ before(function (done) {
     };
     tableSchema = Mapper.createSchema("kassorm_table").keys(tableSchemaChildren);
 
-    var tableInstanceId = Uuid.random().toString();
+    var tableInstanceId = TimeUuid.now().toString();
 
     tableInstance = {
         _id: 22,
-        uuid: tableInstanceId,
-        timeUuid: TimeUuid.now().toString(),
+        uuid: Uuid.random().toString(),
+        timeuuid: tableInstanceId,
         partition_key: "partition_key",
         boolean: true,
         bigInt: 9999,
@@ -123,7 +123,7 @@ before(function (done) {
     dataInserted.catch(log.error.bind(log));
 
     dataRead = dataInserted.then(function () {
-        return table.find({"uuid": tableInstanceId, "partition_key": "partition_key"});
+        return table.find({"timeuuid": tableInstanceId});
     }).then(function (rows) {
         readObject = rows[0];
     }).catch(log.error.bind(log));
