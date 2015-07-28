@@ -15,7 +15,7 @@ var Uuid = require('cassandra-driver').types.Uuid;
 var TimeUuid = require('cassandra-driver').types.TimeUuid;
 
 var kassorm;
-var keyspaceName = "kassorm_test_ks";
+var keyspaceName = "kassorm_test_ks_0";
 //var keyspaceName = "plutarchus";
 var tableName = "kassorm_table";
 var typeName = "kassorm_type";
@@ -31,6 +31,8 @@ var tableInstance, readObject;
 
 
 before(function (done) {
+    this.timeout(15000);
+
     typeSchemaChildren = {
         tExt: Mapper.text(),
         boOlean: Mapper.boolean()
@@ -138,14 +140,15 @@ before(function (done) {
 
     keyspaceDropped = typeDropped.then(function () {
         return kassorm.dropKeyspace(keyspaceName);
+    }).then(function () {
+        done();
     });
 
-    done();
 });
 
 
 describe('Mapping Test', function () {
-    this.timeout(500000);
+    this.timeout(5000);
 
     describe('Create keyspaces, tables and types', function () {
 

@@ -16,5 +16,6 @@ IoC.literal('cassanknexConfig', {
 });
 
 IoC.literal('KassormConfig', {
-    ALLOW_DDL_CHANGES: true
+    ALLOW_DDL_CHANGES: true,
+    SKIP_DDL_CHANGES: false
 });
