@@ -12,6 +12,8 @@ var Q = require("q");
 var Mapper = require('../lib/kassorm').Mapper;
 var JsToKnex = require("../lib/JsToKnex");
 
+var Errors = require("../lib/Errors");
+
 var Uuid = require('cassandra-driver').types.Uuid;
 var TimeUuid = require('cassandra-driver').types.TimeUuid;
 
@@ -54,7 +56,7 @@ before(function (done) {
         _id: Mapper.bigint(),
         uuid: Mapper.uuid(),
         timeuuid: Mapper.partition_key(Mapper.timeuuid(), 0),
-        partition_key: Mapper.text(),
+        partition_key: Mapper.partition_key(Mapper.text(), 1),
         boolean: Mapper.boolean(),
         bigInt: Mapper.bigint(),
         dou_Ble: Mapper.double(),
@@ -99,7 +101,7 @@ before(function (done) {
 
     pkFieldChanged = tableCreated
         .then(function () {
-            tableSchemaChildren.partition_key = Mapper.partition_key(Mapper.text(), 1);
+            tableSchemaChildren.uuid = Mapper.partition_key(Mapper.uuid(), 2);
             var tableSchemaExt = Mapper.createSchema(tableName).keys(tableSchemaChildren);
             return keyspace.createModel(tableSchemaExt);
         });
@@ -138,7 +140,7 @@ describe('alter PK Test', function () {
 
     describe('Adds missing fields in table', function () {
         it("throws error when changing partition keys", function (done) {
-            expect(pkFieldChanged).to.be.rejected.and.notify(done);
+            expect(pkFieldChanged).to.be.rejectedWith(Errors.PartitionKeyMismatch).and.notify(done);
         });
     });
 

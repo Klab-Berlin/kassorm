@@ -1,3 +1,4 @@
+var Errors = require("../lib/Errors");
 var chai = require("chai");
 var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
@@ -140,7 +141,7 @@ describe('alter PK Test Index', function () {
 
     describe('Change in primary key', function () {
         it("throws error when changing partition keys index", function (done) {
-            expect(pkFieldChanged).to.be.rejected.and.notify(done);
+            expect(pkFieldChanged).to.be.rejectedWith(Errors.PartitionKeyIndexMismatch).and.notify(done);
         });
     });
 
