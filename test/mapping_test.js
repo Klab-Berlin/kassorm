@@ -3,10 +3,10 @@ var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
+require('./include/Injections'); // pushes injections
+
 var IoC = require('electrolyte');
 var log = IoC.create("logger").createLogger("TEST");
-
-require('./Injections'); // pushes injections
 
 var Mapper = require('../lib/kassorm').Mapper;
 var JsToKnex = require("../lib/JsToKnex");
