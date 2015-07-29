@@ -1,3 +1,4 @@
+var Errors = require("../lib/Errors");
 var chai = require("chai");
 var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
@@ -8,17 +9,16 @@ require('./include/Injections'); // pushes injections
 var IoC = require('electrolyte');
 var log = IoC.create("logger").createLogger("ADD_COLUMN_TEST");
 
+
 var Q = require("q");
 var Mapper = require('../lib/kassorm').Mapper;
 var JsToKnex = require("../lib/JsToKnex");
-
-var Errors = require("../lib/Errors");
 
 var Uuid = require('cassandra-driver').types.Uuid;
 var TimeUuid = require('cassandra-driver').types.TimeUuid;
 
 var kassorm;
-var keyspaceName = "kassorm_test_ks_3";
+var keyspaceName = "kassorm_test_ks_4";
 var tableName = "alter_table_test";
 var typeName = "alter_type_test";
 
@@ -57,8 +57,8 @@ before(function (done) {
         uuid: Mapper.uuid(),
         timeuuid: Mapper.partition_key(Mapper.timeuuid(), 0),
         partition_key: Mapper.partition_key(Mapper.text(), 1),
-        boolean: Mapper.boolean(),
-        bigInt: Mapper.bigint(),
+        boolean: Mapper.clustering_key(Mapper.boolean(), 0),
+        bigInt: Mapper.clustering_key(Mapper.bigint(), 1),
         dou_Ble: Mapper.double(),
         timestamp: Mapper.timestamp(),
         blob: Mapper.blob(),
@@ -100,7 +100,8 @@ before(function (done) {
 
     pkFieldChanged = tableCreated
         .then(function () {
-            tableSchemaChildren.uuid = Mapper.partition_key(Mapper.uuid(), 2);
+            tableSchemaChildren.boolean = Mapper.clustering_key(Mapper.boolean(), 1);
+            tableSchemaChildren.bigInt = Mapper.clustering_key(Mapper.bigint(), 0);
             var tableSchemaExt = Mapper.createSchema(tableName).keys(tableSchemaChildren);
             return keyspace.createModel(tableSchemaExt);
         });
@@ -116,11 +117,11 @@ before(function (done) {
 
 after(function (done) {
     kassorm.dropKeyspace(keyspaceName).then(function () {
-    done();
+        done();
     }).catch(log.error.bind(log));
 });
 
-describe('alter PK Test', function () {
+describe('alter CK Test Index', function () {
     this.timeout(5000);
 
     describe('Create keyspaces, tables and types', function () {
@@ -137,16 +138,10 @@ describe('alter PK Test', function () {
         });
     });
 
-    describe('Adds missing fields in table', function () {
-        it("throws error when changing partition keys", function (done) {
-            expect(pkFieldChanged).to.be.rejectedWith(Errors.PartitionKeyMismatch).and.notify(done);
+    describe('Change in primary key', function () {
+        it("throws error when changing clustering keys index", function (done) {
+            expect(pkFieldChanged).to.be.rejectedWith(Errors.ClusteringKeyIndexMismatch).and.notify(done);
         });
     });
 
-    describe('Adds missing fields in type', function () {
-
-    });
-
 });
-
-

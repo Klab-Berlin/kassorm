@@ -99,7 +99,6 @@ before(function (done) {
             return keyspace.createModel(tableSchema);
         }).then(function (t) {
             table = t;
-            log.info("table:", t);
         });
 
     extFieldAdded = tableCreated
