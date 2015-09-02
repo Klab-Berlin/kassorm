@@ -1,6 +1,6 @@
 {
   "name": "kassorm",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "K-Lab Cassandra ORM",
   "main": "./lib/kassorm.js",
   "scripts": {
